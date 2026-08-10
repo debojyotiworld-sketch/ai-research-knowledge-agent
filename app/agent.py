@@ -1,10 +1,19 @@
 from planner import plan
+from tool_manager import execute_tool
 from response_generator import generate_response
 
 
 def run_agent(user_input):
-    intent = plan(user_input)
+    decision = plan(user_input)
 
-    response = generate_response(intent)
+    if decision["type"] == "tool":
+        result = execute_tool(
+            decision["tool"],
+            a=10,
+            b=20,
+            operation="add"
+        )
 
-    return response
+        return f"The result is {result}"
+
+    return generate_response(decision["intent"])

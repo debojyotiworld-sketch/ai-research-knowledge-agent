@@ -2,9 +2,18 @@ def plan(user_input):
     user_input = user_input.lower().strip()
 
     if user_input in ["hello", "hi", "hey"]:
-        return "greeting"
+        return {
+            "type": "response",
+            "intent": "greeting"
+        }
 
     if user_input.startswith("calculate"):
-        return "calculator"
+        return {
+            "type": "tool",
+            "tool": "calculator"
+        }
 
-    return "unknown"
+    return {
+        "type": "response",
+        "intent": "unknown"
+    }

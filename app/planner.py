@@ -8,9 +8,12 @@ def plan(user_input):
         }
 
     if user_input.startswith("calculate"):
+        expression = user_input.replace("calculate", "").strip()
+
         return {
             "type": "tool",
-            "tool": "calculator"
+            "tool": "calculator",
+            "expression": expression
         }
 
     return {

@@ -1,16 +1,23 @@
-def calculate(a, b, operation):
-    if operation == 'add':
+def calculate(expression):
+    parts = expression.split()
+
+    a = float(parts[0])
+    operator = parts[1]
+    b = float(parts[2])
+
+    if operator == "+":
         return a + b
 
-    if operation == 'subtract':
+    if operator == "-":
         return a - b
 
-    if operation == 'multiply':
+    if operator == "*":
         return a * b
 
-    if operation == 'divide':
+    if operator == "/":
         if b == 0:
-            return "Error: Division by zero is not allowed."
+            return "Cannot divide by zero."
+
         return a / b
-    
-    return "Error: Invalid operation."
+
+    return "Unknown operator."

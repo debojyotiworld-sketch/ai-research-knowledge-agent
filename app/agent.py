@@ -9,9 +9,7 @@ def run_agent(user_input):
     if decision["type"] == "tool":
         result = execute_tool(
             decision["tool"],
-            a=10,
-            b=20,
-            operation="add"
+            expression=decision["expression"]
         )
 
         return f"The result is {result}"

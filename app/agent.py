@@ -9,7 +9,9 @@ def run_agent(user_input):
     if decision["type"] == "tool":
         result = execute_tool(
             decision["tool"],
-            expression=decision["expression"]
+            expression=decision["expression"],
+            file_path=decision["file_path"],
+            query=decision["expression"]
         )
 
         return f"The result is {result}"

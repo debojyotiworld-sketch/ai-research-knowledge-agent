@@ -16,6 +16,24 @@ def plan(user_input):
             "expression": expression
         }
 
+    if user_input.startswith("search"):
+        query = user_input.replace("search", "").strip()
+
+        return {
+            "type": "tool",
+            "tool": "web_search",
+            "expression": query
+        }
+
+    if user_input.startswith("read pdf"):
+        file_path = user_input.replace("read pdf", "").strip()
+
+        return {
+            "type": "tool",
+            "tool": "pdf_reader",
+            "file_path": file_path
+        }
+
     return {
         "type": "response",
         "intent": "unknown"

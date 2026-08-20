@@ -9,9 +9,13 @@ def read_pdf(file_path):
 
         for page in reader.pages:
             text = page.extract_text()
+
+            if text == None:
+                text = ""
             pages.append(text)
 
         return pages
 
     except Exception as e:
         print("Something went wrong:", e)
+        return None

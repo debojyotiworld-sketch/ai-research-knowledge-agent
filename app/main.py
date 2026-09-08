@@ -1,6 +1,5 @@
 from agent import run_agent
 
-
 def main():
     print("AI Research Agent")
     print("Type 'exit' to quit.")

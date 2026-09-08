@@ -14,6 +14,7 @@ function App() {
     <main className="app">
       <section className="research-container">
         <div className="hero">
+          
           <p className="eyebrow">AI RESEARCH ASSISTANT</p>
 
           <h1>What would you like to research?</h1>

@@ -7,7 +7,22 @@ function App() {
   const handleResearch = () => {
     if (!query.trim()) return
 
-    console.log('Research query:', query)
+    // POST request to the backend API with the research query
+    fetch('http://localhost:5000/research', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data from the backend
+        console.log('Research results:', data)
+      })
+      .catch((error) => {
+        console.error('Error during research:', error)
+      })
   }
 
   return (

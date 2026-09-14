@@ -7,22 +7,27 @@ function App() {
   const handleResearch = () => {
     if (!query.trim()) return
 
-    // POST request to the backend API with the research query
-    fetch('http://localhost:5000/research', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data from the backend
-        console.log('Research results:', data)
+    try {
+      fetch('http://localhost:3000/research', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
       })
-      .catch((error) => {
-        console.error('Error during research:', error)
-      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Research result:', data)
+          // Handle the research result here (e.g., display it in the UI)
+        })
+        .catch((error) => {
+          console.error('Error during research:', error)
+          // Handle the error here (e.g., show an error message to the user)
+        })
+    } catch (error) {
+      console.error('Unexpected error:', error)
+      // Handle unexpected errors here
+    }
   }
 
   return (

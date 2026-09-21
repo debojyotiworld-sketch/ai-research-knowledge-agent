@@ -16,15 +16,6 @@ def plan(user_input):
             "expression": expression
         }
 
-    if user_input.startswith("search"):
-        query = user_input.replace("search", "").strip()
-
-        return {
-            "type": "tool",
-            "tool": "web_search",
-            "expression": query
-        }
-
     if user_input.startswith("read pdf"):
         file_path = user_input.replace("read pdf", "").strip()
 
@@ -34,7 +25,7 @@ def plan(user_input):
             "file_path": file_path
         }
 
-    if user_input.startswith("search"):
+    if user_input.lower().startswith("search"):
         query = user_input.replace("search", "").strip()
 
         return {

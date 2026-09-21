@@ -15,7 +15,7 @@ def run_agent(user_input):
             
             return f"The content of the PDF is:\n{result}"
 
-        elif decision["tool"] == "web search":
+        elif decision["tool"] == "web_search":
             result = execute_tool(
                 decision["tool"],
                 query=decision["query"]

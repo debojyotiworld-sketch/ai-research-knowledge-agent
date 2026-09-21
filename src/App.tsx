@@ -1,68 +1,43 @@
-import { useState } from 'react'
-import './App.css'
+import React from "react";
+import { useState } from "react";
 
 function App() {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("");
+  const [result, setResult] = useState("");
 
-  const handleResearch = () => {
-    if (!query.trim()) return
-
-    try {
-      fetch('http://localhost:3000/research', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Research result:', data)
-          // Handle the research result here (e.g., display it in the UI)
-        })
-        .catch((error) => {
-          console.error('Error during research:', error)
-          // Handle the error here (e.g., show an error message to the user)
-        })
-    } catch (error) {
-      console.error('Unexpected error:', error)
-      // Handle unexpected errors here
-    }
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await fetch("/api/research", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    });
+    const data = await response.json();
+    setResult(data.result);
+  };
 
   return (
-    <main className="app">
-      <section className="research-container">
-        <div className="hero">
-          
-          <p className="eyebrow">AI RESEARCH ASSISTANT</p>
-
-          <h1>What would you like to research?</h1>
-
-          <p className="description">
-            Ask a question and let the AI help you research the topic.
-          </p>
+    <div>
+      <h1>AI Research Agent</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter your research query"
+        />
+        <button type="submit">Submit</button>
+      </form>
+      {result && (
+        <div>
+          <h2>Research Result:</h2>
+          <p>{result}</p>
         </div>
-
-        <div className="research-box">
-          <textarea
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Ask anything..."
-            rows={5}
-          />
-
-          <button
-            type="button"
-            onClick={handleResearch}
-            disabled={!query.trim()}
-          >
-            Start Research
-          </button>
-        </div>
-      </section>
-    </main>
-  )
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

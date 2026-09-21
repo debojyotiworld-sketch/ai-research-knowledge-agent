@@ -34,6 +34,15 @@ def plan(user_input):
             "file_path": file_path
         }
 
+    if user_input.startswith("search"):
+        query = user_input.replace("search", "").strip()
+
+        return {
+            "type": "tool",
+            "tool": "web_search",
+            "query": query
+        }
+
     return {
         "type": "response",
         "intent": "unknown"

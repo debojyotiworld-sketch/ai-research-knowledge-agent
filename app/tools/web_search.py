@@ -32,11 +32,3 @@ def web_search(query, max_results=10):
         })
 
     return results
-
-
-results = web_search(query)
-
-for i, result in enumerate(results, 1):
-    print(f"\n{i}. {result['title']}")
-    print(result["url"])
-    print(result["snippet"])

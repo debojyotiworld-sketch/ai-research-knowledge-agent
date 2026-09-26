@@ -9,10 +9,10 @@ The core application resides in the `app/` directory, which is divided into seve
 * **`main.py`**: Serves as the primary entry point to initialize and run the application.
 
 
-* **`agent.py`**: Contains the core agent logic and orchestration.
+* **`agent.py`**: Orchestrates model responses, tool execution, and in-process conversation history.
 
 
-* **`planner.py`**: Responsible for breaking down complex queries and creating task execution strategies.
+* **`planner.py`**: Sends the conversation to the language model and exposes the available tool definitions.
 
 
 * **`memory.py`**: Manages the agent's memory and state.
@@ -25,6 +25,8 @@ The core application resides in the `app/` directory, which is divided into seve
 
 
 * **`tool_manager.py`**: Oversees the registration, coordination, and routing of the agent's utilities.
+
+* **`llm_client.py`**: Configures the OpenAI-compatible client using environment variables.
 
 
 
@@ -39,3 +41,19 @@ The agent utilizes a dedicated `app/tools/` directory containing specific utilit
 
 
 * **Calculator (`calculator.py`)**: Provides the agent with mathematical calculation capabilities.
+
+## Run the agent
+
+The agent uses OpenAI-compatible chat completions and tool calling. Install its
+dependencies, set an API key, and start the command-line interface:
+
+```powershell
+pip install -r requirements.txt
+$env:OPENAI_API_KEY = "your-api-key"
+python app\main.py
+```
+
+The default model is `gpt-4o-mini`. Set `OPENAI_MODEL` to use another model
+that supports tool calling. For an OpenAI-compatible endpoint, optionally set
+`OPENAI_BASE_URL` as well. The conversation is kept in memory for the duration
+of the process; type `exit` to quit.

@@ -1,40 +1,73 @@
-def plan(user_input):
-    user_input = user_input.lower().strip()
+import os
 
-    if user_input in ["hello", "hi", "hey"]:
-        return {
-            "type": "response",
-            "intent": "greeting"
-        }
+from llm_client import create_chat_completion
 
-    if user_input.startswith("calculate"):
-        expression = user_input.replace("calculate", "").strip()
 
-        return {
-            "type": "tool",
-            "tool": "calculator",
-            "expression": expression
-        }
+SYSTEM_PROMPT = (
+    "You are an AI research assistant. Answer helpfully and accurately. "
+    "Use the calculator for arithmetic, the web search tool for current or "
+    "external information, and the PDF reader when the user provides a PDF "
+    "file path. Do not claim to have used a tool unless you called it."
+)
 
-    if user_input.startswith("read pdf"):
-        file_path = user_input.replace("read pdf", "").strip()
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "calculator",
+            "description": "Evaluate a basic arithmetic expression.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "expression": {
+                        "type": "string",
+                        "description": "An arithmetic expression such as 12 * 4.",
+                    }
+                },
+                "required": ["expression"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "web_search",
+            "description": "Search the web for relevant information.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Search query."}
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "pdf_reader",
+            "description": "Extract the text from a PDF file at a supplied path.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_path": {
+                        "type": "string",
+                        "description": "Path to the PDF file.",
+                    }
+                },
+                "required": ["file_path"],
+                "additionalProperties": False,
+            },
+        },
+    },
+]
 
-        return {
-            "type": "tool",
-            "tool": "pdf_reader",
-            "file_path": file_path
-        }
 
-    if user_input.lower().startswith("search"):
-        query = user_input.replace("search", "").strip()
-
-        return {
-            "type": "tool",
-            "tool": "web_search",
-            "query": query
-        }
-
-    return {
-        "type": "response",
-        "intent": "unknown"
-    }
+def plan(messages):
+    return create_chat_completion(
+        model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+        messages=messages,
+        tools=TOOLS,
+    )

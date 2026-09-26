@@ -1,5 +1,6 @@
 from agent import run_agent
 
+
 def main():
     print("AI Research Agent")
     print("Type 'exit' to quit.")
@@ -11,7 +12,11 @@ def main():
             print("Goodbye!")
             break
 
-        response = run_agent(user_input)
+        try:
+            response = run_agent(user_input)
+        except RuntimeError as error:
+            print(f"Agent error: {error}")
+            continue
 
         print("Agent:", response)
 

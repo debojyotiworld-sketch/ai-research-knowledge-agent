@@ -1,6 +1,6 @@
 import os
 
-from llm_client import create_chat_completion
+from app.llm_client import create_chat_completion
 
 
 SYSTEM_PROMPT = (

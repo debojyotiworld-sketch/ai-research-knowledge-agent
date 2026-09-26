@@ -1,8 +1,8 @@
 import json
 
-from planner import SYSTEM_PROMPT, plan
-from response_generator import generate_response
-from tool_manager import execute_tool
+from app.planner import SYSTEM_PROMPT, plan
+from app.response_generator import generate_response
+from app.tool_manager import execute_tool
 
 
 MAX_TOOL_ROUNDS = 5

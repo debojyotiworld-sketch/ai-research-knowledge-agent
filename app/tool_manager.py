@@ -1,6 +1,6 @@
-from tools.calculator import calculate
-from tools.pdf_reader import read_pdf
-from tools.web_search import web_search
+from app.tools.calculator import calculate
+from app.tools.pdf_reader import read_pdf
+from app.tools.web_search import web_search
 
 
 def execute_tool(tool_name, **kwargs):

@@ -1,11 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-
+from openai import RateLimitError
 from app.agent import run_agent
 
 
 app = FastAPI(
-    title="AI Research Agent API",
+    title="AI Research and Knowledge Agent API",
     version="0.1.0",
 )
 
@@ -32,3 +32,5 @@ def research(request: ResearchRequest):
         raise HTTPException(status_code=400, detail=str(error))
     except RuntimeError as error:
         raise HTTPException(status_code=500, detail=str(error))
+    except RateLimitError as error:
+        raise HTTPException(status_code=429, detail=str(error))

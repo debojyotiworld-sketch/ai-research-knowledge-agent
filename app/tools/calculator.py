@@ -1,23 +1,32 @@
+import ast
+import operator
+
+
+OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+}
+
+
 def calculate(expression):
-    parts = expression.split()
+    try:
+        tree = ast.parse(expression, mode="eval")
+        return _evaluate(tree.body)
+    except ZeroDivisionError:
+        return "Cannot divide by zero."
+    except (SyntaxError, ValueError, TypeError):
+        return "Invalid expression."
 
-    a = float(parts[0])
-    operator = parts[1]
-    b = float(parts[2])
 
-    if operator == "+":
-        return a + b
+def _evaluate(node):
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return node.value
 
-    if operator == "-":
-        return a - b
+    if isinstance(node, ast.BinOp) and type(node.op) in OPERATORS:
+        left = _evaluate(node.left)
+        right = _evaluate(node.right)
+        return OPERATORS[type(node.op)](left, right)
 
-    if operator == "*":
-        return a * b
-
-    if operator == "/":
-        if b == 0:
-            return "Cannot divide by zero."
-
-        return a / b
-
-    return "Unknown operator."
+    raise ValueError("Unsupported expression.")

@@ -8,10 +8,10 @@ _client = None
 def get_client():
     global _client
 
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("LLM_API_KEY")
     if not api_key:
         raise RuntimeError(
-            "OPENAI_API_KEY is not set. Set it in your environment before "
+            "LLM_API_KEY is not set. Set it in your environment before "
             "starting the AI Research Agent."
         )
 
@@ -25,7 +25,7 @@ def get_client():
             ) from error
 
         client_options = {"api_key": api_key}
-        base_url = os.getenv("OPENAI_BASE_URL")
+        base_url = os.getenv("LLM_BASE_URL")
         if base_url:
             client_options["base_url"] = base_url
         _client = OpenAI(**client_options)

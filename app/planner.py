@@ -67,7 +67,7 @@ TOOLS = [
 
 def plan(messages):
     return create_chat_completion(
-        model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+        model=os.getenv("LLM_MODEL", "openrouter/free"),
         messages=messages,
         tools=TOOLS,
     )
